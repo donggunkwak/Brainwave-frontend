@@ -5,6 +5,7 @@ import { BadValuesError, NotAllowedError, NotFoundError } from "./errors";
 export interface UserDoc extends BaseDoc {
   username: string;
   password: string;
+  admin:boolean;
 }
 
 /**
@@ -25,7 +26,7 @@ export default class AuthenticatingConcept {
 
   async create(username: string, password: string) {
     await this.assertGoodCredentials(username, password);
-    const _id = await this.users.createOne({ username, password });
+    const _id = await this.users.createOne({ username, password,admin:false });
     return { msg: "User created successfully!", user: await this.users.readOne({ _id }) };
   }
 
@@ -88,7 +89,9 @@ export default class AuthenticatingConcept {
     if (user.password !== currentPassword) {
       throw new NotAllowedError("The given current password is wrong!");
     }
-
+    if(!newPassword){
+      throw new BadValuesError("Password must be non-empty!");
+    }
     await this.users.partialUpdateOne({ _id }, { password: newPassword });
     return { msg: "Password updated successfully!" };
   }
@@ -96,6 +99,15 @@ export default class AuthenticatingConcept {
   async delete(_id: ObjectId) {
     await this.users.deleteOne({ _id });
     return { msg: "User deleted!" };
+  }
+
+  async assertUserIsAdmin(_id:ObjectId){
+    this.assertUserExists(_id);
+    const user = await this.users.readOne({ _id });
+    console.log(user);
+    if(user?.admin===false){
+      throw new NotAllowedError('User must be an admin for this feature!');
+    }
   }
 
   async assertUserExists(_id: ObjectId) {
