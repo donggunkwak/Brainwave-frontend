@@ -10,7 +10,7 @@ const { currentUsername } = storeToRefs(useUserStore());
 
 const deleteComment = async () => {
   try {
-    await fetchy(`/api/posts/comments/${props.comment._id}`, "DELETE");
+    await fetchy(`/api/posts/${props.post._id}/comments/${props.comment._id}`, "DELETE");
   } catch {
     console.log("broken");
     return;

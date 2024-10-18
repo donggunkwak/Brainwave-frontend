@@ -9,7 +9,7 @@ const emit = defineEmits(["editComment", "refreshComments"]);
 
 const editComment = async (content: string) => {
   try {
-    await fetchy(`/api/posts/comments/${props.comment._id}`, "PATCH", { body: { content: content } });
+    await fetchy(`/api/posts/${props.post._id}/comments/${props.comment._id}`, "PATCH", { body: { content: content } });
   } catch (e) {
     console.log("broken");
     return;
