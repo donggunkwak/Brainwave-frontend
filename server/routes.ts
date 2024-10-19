@@ -131,6 +131,22 @@ class Routes {
   }
 
   //Comments on Posts
+  @Router.patch("/posts/:pid/comments/:id")
+  async updateCommentOnPost(session: SessionDoc, pid: string, id: string, content?: string, options?: CommentOptions) {
+    const user = Sessioning.getUser(session);
+    const oid = new ObjectId(id);
+    await CommentOnPost.assertAuthorIsUser(oid, user);
+    return await CommentOnPost.update(oid, content, options);
+  }
+
+  @Router.delete("/posts/:pid/comments/:id")
+  async deleteCommentOnPost(session: SessionDoc, pid: string, id: string) {
+    const user = Sessioning.getUser(session);
+    const oid = new ObjectId(id);
+    await CommentOnPost.assertAuthorIsUser(oid, user);
+    return CommentOnPost.delete(oid);
+  }
+
   @Router.get("/posts/:pid/comments")
   @Router.validate(z.object({ pid: z.string() }))
   async getCommentsOnPosts(pid: string) {
@@ -146,21 +162,6 @@ class Routes {
     await Posting.assertPostExists(itemID); //check if that post exists!
     const created = await CommentOnPost.create(itemID, user, content, options);
     return { msg: created.msg, comment: await Responses.comment(created.comment) };
-  }
-  @Router.patch("/posts/:pid/comments/:id")
-  async updateCommentOnPost(session: SessionDoc, pid: string, id: string, content?: string, options?: CommentOptions) {
-    const user = Sessioning.getUser(session);
-    const oid = new ObjectId(id);
-    await CommentOnPost.assertAuthorIsUser(oid, user);
-    return await CommentOnPost.update(oid, content, options);
-  }
-
-  @Router.delete("/posts/:pid/comments/:id")
-  async deleteCommentOnPost(session: SessionDoc, pid: string, id: string) {
-    const user = Sessioning.getUser(session);
-    const oid = new ObjectId(id);
-    await CommentOnPost.assertAuthorIsUser(oid, user);
-    return CommentOnPost.delete(oid);
   }
 
   //Likes on Posts

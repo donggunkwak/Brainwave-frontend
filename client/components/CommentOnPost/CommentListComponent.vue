@@ -36,8 +36,8 @@ onBeforeMount(async () => {
 <template>
   <section class="comments" v-if="loaded && comments.length !== 0">
     <article v-for="comment in comments" :key="comment._id">
-      <CommentComponent v-if="editing !== comment._id" :comment="comment" @refreshComments="getComments" @editComment="updateEditing" />
-      <EditCommentForm v-else :comment="comment" @refreshComments="getComments" @editComment="updateEditing" />
+      <CommentComponent v-if="editing !== comment._id" :post="post" :comment="comment" @refreshComments="getComments" @editComment="updateEditing" />
+      <EditCommentForm v-else :post="post" :comment="comment" @refreshComments="getComments" @editComment="updateEditing" />
     </article>
   </section>
   <p v-else-if="loaded">No comments found</p>
