@@ -1,9 +1,12 @@
 <script setup lang="ts">
+import router from "@/router";
 import { useUserStore } from "@/stores/user";
 import { formatDate } from "@/utils/formatDate";
 import { storeToRefs } from "pinia";
 import { fetchy } from "../../utils/fetchy";
 import CommentListComponent from "../CommentOnPost/CommentListComponent.vue";
+import VoteComponent from "../CorrectnessVotingOnPost/VoteComponent.vue";
+import LikeComponent from "../LikeOnPost/LikeComponent.vue";
 
 const props = defineProps(["post", "showComments"]);
 const emit = defineEmits(["editPost", "refreshPosts"]);
@@ -17,11 +20,18 @@ const deletePost = async () => {
   }
   emit("refreshPosts");
 };
+const reroute = async (path: string) => {
+  void router.push({ path: path });
+};
 </script>
 
 <template>
-  <p class="author">{{ props.post.author }}</p>
-  <p>{{ props.post.content }}</p>
+  <p class="author" @click="reroute(`/profile/${props.post.author}`)">{{ props.post.author }}</p>
+  <p @click="reroute(`/posts/${props.post._id}`)">{{ props.post.content }}</p>
+  <menu>
+    <LikeComponent :post="props.post"></LikeComponent>
+  </menu>
+  <VoteComponent :post="props.post"></VoteComponent>
   <div class="base">
     <menu v-if="props.post.author == currentUsername">
       <li><button class="btn-small pure-button" @click="emit('editPost', props.post._id)">Edit</button></li>

@@ -6,6 +6,8 @@ import CreatePostView from "../views/CreatePostView.vue";
 import HomeView from "../views/HomeView.vue";
 import LoginView from "../views/LoginView.vue";
 import NotFoundView from "../views/NotFoundView.vue";
+import PostView from "../views/PostView.vue";
+import ProfileView from "../views/ProfileView.vue";
 import SettingView from "../views/SettingView.vue";
 
 const router = createRouter({
@@ -39,6 +41,18 @@ const router = createRouter({
       name: "Create Post",
       component: CreatePostView,
       meta: { requiresAuth: true },
+    },
+    {
+      path: "/posts/:id",
+      name: "Post View",
+      component: PostView,
+      props: true,
+    },
+    {
+      path: "/profile/:username",
+      name: "Profile",
+      component: ProfileView,
+      props: true,
     },
     {
       path: "/:catchAll(.*)",

@@ -114,6 +114,11 @@ class Routes {
     return { msg: created.msg, post: await Responses.post(created.post) };
   }
 
+  @Router.get("/posts/:id")
+  async getPostByID(id: string) {
+    return await Responses.post(await Posting.getByID(new ObjectId(id)));
+  }
+
   @Router.patch("/posts/:id")
   async updatePost(session: SessionDoc, id: string, content?: string, options?: PostOptions) {
     const user = Sessioning.getUser(session);
@@ -194,6 +199,13 @@ class Routes {
     return await LikeOnPost.removeLike(oid, user);
   }
 
+  @Router.get("/posts/:pid/likes/check")
+  async checkIfUserLikedPost(session: SessionDoc, pid: string) {
+    const user = Sessioning.getUser(session);
+    const oid = new ObjectId(pid);
+    return await LikeOnPost.checkLikeExists(oid, user);
+  }
+
   //Correctness Voting on posts
 
   /**
@@ -238,6 +250,20 @@ class Routes {
     const oid = new ObjectId(pid);
     await Posting.assertPostExists(oid); //check if that post exists!
     return await VoteOnPost.removeVote(oid, user);
+  }
+
+  @Router.get("/posts/:pid/cvote/user")
+  async getUserVote(session: SessionDoc, pid: string) {
+    const user = Sessioning.getUser(session);
+    const oid = new ObjectId(pid);
+    return await VoteOnPost.getVote(oid, user);
+  }
+
+  @Router.get("/posts/:pid/cvote/check")
+  async checkUserVote(session: SessionDoc, pid: string) {
+    const user = Sessioning.getUser(session);
+    const oid = new ObjectId(pid);
+    return await VoteOnPost.checkVoteExists(oid, user);
   }
 
   //Professional Verifying
