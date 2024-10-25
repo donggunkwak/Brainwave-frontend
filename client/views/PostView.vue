@@ -31,8 +31,10 @@ onBeforeMount(async () => {
 
 <template>
   <section v-if="loaded && post !== undefined">
-    <PostComponent v-if="editing !== post._id" :post="post" :showComments="true" @editPost="updateEditing" />
-    <EditPostForm v-else :post="post" @refreshPosts="getPost" @editPost="updateEditing" />
+    <article>
+      <PostComponent v-if="editing !== post._id" :post="post" :showComments="true" @editPost="updateEditing" />
+      <EditPostForm v-else :post="post" @refreshPosts="getPost" @editPost="updateEditing" />
+    </article>
   </section>
 </template>
 
@@ -51,7 +53,7 @@ p,
 }
 
 article {
-  background-color: var(--base-bg);
+  background-color: rgb(140, 213, 231);
   border-radius: 1em;
   display: flex;
   flex-direction: column;

@@ -50,9 +50,20 @@ onBeforeMount(async () => {
   <div class="base">
     <section v-if="loaded">
       <menu>
-        <li v-if="!liked"><button class="btn-small pure-button" @click="addLike()">Like</button></li>
-        <li v-else><button class="btn-small pure-button" @click="deleteLike()">Unlike</button></li>
-        {{ numLikes }}
+        <li v-if="!liked">
+          <button class="button button-like" @click="addLike()">
+            <i class="fa fa-heart">♥</i>
+            <span>Like</span>
+          </button>
+          {{ numLikes }}
+        </li>
+        <li v-else>
+          <button class="button button-like liked" @click="deleteLike()">
+            <i class="fa fa-heart">♥</i>
+            <span>Unlike</span>
+            {{ numLikes }}
+          </button>
+        </li>
       </menu>
     </section>
   </div>
@@ -92,5 +103,74 @@ menu {
 
 .base article:only-child {
   margin-left: auto;
+}
+.button-like {
+  border: 2px solid #8a8a8a;
+  background-color: #fefefe;
+  text-decoration: none;
+  padding: 1rem;
+  position: relative;
+  vertical-align: middle;
+  text-align: center;
+  display: inline-block;
+  border-radius: 3rem;
+  color: #8a8a8a;
+  transition: all ease 0.4s;
+}
+
+.button-like span {
+  margin-left: 0.5rem;
+}
+.button-like .fa,
+.button-like span {
+  transition: all ease 0.4s;
+}
+
+.button-like:focus {
+  background-color: #fefefe;
+}
+
+.button-like:focus .fa,
+.button-like:focus span {
+  color: #8a8a8a;
+}
+
+.button-like:hover {
+  border-color: #cc4b37;
+  background-color: #fefefe;
+}
+
+.button-like:hover .fa,
+.button-like:hover span {
+  color: #cc4b37;
+}
+
+.liked {
+  background-color: #cc4b37;
+  border-color: #cc4b37;
+}
+
+.liked .fa,
+.liked span {
+  color: #fefefe;
+}
+
+.liked:focus {
+  background-color: #cc4b37;
+}
+
+.liked:focus .fa,
+.liked:focus span {
+  color: #fefefe;
+}
+
+.liked:hover {
+  background-color: #cc4b37;
+  border-color: #cc4b37;
+}
+
+.liked:hover .fa,
+.liked:hover span {
+  color: #fefefe;
 }
 </style>

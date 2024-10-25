@@ -20,12 +20,21 @@ const deleteComment = async () => {
 </script>
 
 <template>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
   <p class="author">{{ props.comment.author }}</p>
   <p>{{ props.comment.content }}</p>
   <div class="base">
     <menu v-if="props.comment.author == currentUsername">
-      <li><button class="btn-small pure-button" @click="emit('editComment', props.comment._id)">Edit</button></li>
-      <li><button class="button-error btn-small pure-button" @click="deleteComment">Delete</button></li>
+      <li>
+        <button class="btn-small pure-button" @click="emit('editComment', props.comment._id)">
+          <span class="material-icons"> edit </span>
+        </button>
+      </li>
+      <li>
+        <button class="button-error btn-small pure-button" @click="deleteComment">
+          <span class="material-icons"> delete </span>
+        </button>
+      </li>
     </menu>
     <article class="timestamp">
       <p v-if="props.comment.dateCreated !== props.comment.dateUpdated">Edited on: {{ formatDate(props.comment.dateUpdated) }}</p>
@@ -43,7 +52,6 @@ p {
   font-weight: bold;
   font-size: 1.2em;
 }
-
 menu {
   list-style-type: none;
   display: flex;

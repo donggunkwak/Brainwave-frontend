@@ -26,18 +26,25 @@ const reroute = async (path: string) => {
 </script>
 
 <template>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
   <p class="author" @click="reroute(`/profile/${props.post.author}`)">{{ props.post.author }}</p>
   <p @click="reroute(`/posts/${props.post._id}`)">{{ props.post.content }}</p>
-  <menu>
-    <LikeComponent :post="props.post"></LikeComponent>
-  </menu>
+  <LikeComponent :post="props.post"></LikeComponent>
   <VoteComponent :post="props.post"></VoteComponent>
   <div class="base">
     <menu v-if="props.post.author == currentUsername">
-      <li><button class="btn-small pure-button" @click="emit('editPost', props.post._id)">Edit</button></li>
-      <li><button class="button-error btn-small pure-button" @click="deletePost">Delete</button></li>
+      <li>
+        <button class="btn-small pure-button" @click="emit('editPost', props.post._id)">
+          <span class="material-icons" style="width: 25px"> edit </span>
+        </button>
+      </li>
+      <li>
+        <button class="button-error btn-small pure-button" @click="deletePost">
+          <span class="material-icons" style="width: 25px"> delete </span>
+        </button>
+      </li>
     </menu>
-    <article class="timestamp">
+    <article class="timestamp" @click="reroute(`/posts/${props.post._id}`)">
       <p v-if="props.post.dateCreated !== props.post.dateUpdated">Edited on: {{ formatDate(props.post.dateUpdated) }}</p>
       <p v-else>Created on: {{ formatDate(props.post.dateCreated) }}</p>
     </article>
@@ -59,11 +66,14 @@ menu {
   list-style-type: none;
   display: flex;
   flex-direction: row;
+  justify-content: flex-end;
   gap: 1em;
   padding: 0;
   margin: 0;
 }
-
+template {
+  background-color: rgb(140, 213, 231);
+}
 .timestamp {
   display: flex;
   justify-content: flex-end;

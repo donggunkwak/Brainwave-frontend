@@ -33,7 +33,7 @@ const emptyForm = () => {
 
 <style scoped>
 form {
-  background-color: var(--base-bg);
+  background-color: rgb(77, 111, 135);
   border-radius: 1em;
   display: flex;
   flex-direction: column;
@@ -42,11 +42,20 @@ form {
 }
 
 textarea {
+  background-color: rgb(234, 245, 248);
   font-family: inherit;
   font-size: inherit;
-  height: 3em;
+  height: 6em;
   padding: 0.5em;
   border-radius: 4px;
   resize: none;
+}
+
+button {
+  background-color: rgb(19, 60, 109);
+}
+
+label {
+  color: rgb(37, 63, 50);
 }
 </style>

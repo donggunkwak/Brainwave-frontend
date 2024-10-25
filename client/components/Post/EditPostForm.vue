@@ -24,7 +24,7 @@ const editPost = async (content: string) => {
     <textarea id="content" v-model="content" placeholder="Create a post!" required> </textarea>
     <div class="base">
       <menu>
-        <li><button class="btn-small pure-button-primary pure-button" type="submit">Save</button></li>
+        <li><button class="btn-small pure-button-primary pure-button" type="submit" style="background-color: rgb(19, 60, 109)">Save</button></li>
         <li><button class="btn-small pure-button" @click="emit('editPost')">Cancel</button></li>
       </menu>
       <p v-if="props.post.dateCreated !== props.post.dateUpdated" class="timestamp">Edited on: {{ formatDate(props.post.dateUpdated) }}</p>
@@ -35,18 +35,26 @@ const editPost = async (content: string) => {
 
 <style scoped>
 form {
-  background-color: var(--base-bg);
+  background-color: rgb(77, 111, 135);
+  border-radius: 1em;
   display: flex;
   flex-direction: column;
   gap: 0.5em;
+  padding: 1em;
 }
 
 textarea {
+  background-color: rgb(234, 245, 248);
   font-family: inherit;
   font-size: inherit;
   height: 6em;
+  padding: 0.5em;
   border-radius: 4px;
   resize: none;
+}
+
+label {
+  color: rgb(37, 63, 50);
 }
 
 p {

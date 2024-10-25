@@ -68,7 +68,7 @@ p,
 }
 
 article {
-  background-color: var(--base-bg);
+  background-color: rgb(113, 175, 203);
   border-radius: 1em;
   display: flex;
   flex-direction: column;

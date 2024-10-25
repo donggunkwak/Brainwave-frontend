@@ -21,8 +21,14 @@ async function delete_() {
 <template>
   <main class="column">
     <h1>Settings for {{ currentUsername }}</h1>
-    <button class="pure-button pure-button-primary" @click="logout">Logout</button>
+    <button class="pure-button pure-button-primary logoutbutton" @click="logout">Logout</button>
     <button class="button-error pure-button" @click="delete_">Delete User</button>
     <UpdateUserForm />
   </main>
 </template>
+
+<style scoped>
+.logoutbutton {
+  background-color: rgb(19, 60, 109);
+}
+</style>

@@ -5,7 +5,7 @@ import { BadValuesError, NotAllowedError, NotFoundError } from "./errors";
 export interface UserDoc extends BaseDoc {
   username: string;
   password: string;
-  admin:boolean;
+  admin: boolean;
 }
 
 /**
@@ -26,7 +26,7 @@ export default class AuthenticatingConcept {
 
   async create(username: string, password: string) {
     await this.assertGoodCredentials(username, password);
-    const _id = await this.users.createOne({ username, password,admin:false });
+    const _id = await this.users.createOne({ username, password, admin: false });
     return { msg: "User created successfully!", user: await this.users.readOne({ _id }) };
   }
 
@@ -89,7 +89,7 @@ export default class AuthenticatingConcept {
     if (user.password !== currentPassword) {
       throw new NotAllowedError("The given current password is wrong!");
     }
-    if(!newPassword){
+    if (!newPassword) {
       throw new BadValuesError("Password must be non-empty!");
     }
     await this.users.partialUpdateOne({ _id }, { password: newPassword });
@@ -101,12 +101,22 @@ export default class AuthenticatingConcept {
     return { msg: "User deleted!" };
   }
 
-  async assertUserIsAdmin(_id:ObjectId){
-    this.assertUserExists(_id);
+  async isUserAdmin(_id: ObjectId) {
+    await this.assertUserExists(_id);
+    const user = await this.users.readOne({ _id });
+    if (user?.admin === false) {
+      return false;
+    }
+    return true;
+  }
+
+  async assertUserIsAdmin(_id: ObjectId) {
+    await this.assertUserExists(_id);
     const user = await this.users.readOne({ _id });
     console.log(user);
-    if(user?.admin===false){
-      throw new NotAllowedError('User must be an admin for this feature!');
+
+    if ((await this.isUserAdmin(_id)) === false) {
+      throw new NotAllowedError("User must be an admin for this feature!");
     }
   }
 

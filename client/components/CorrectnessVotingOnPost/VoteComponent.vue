@@ -41,7 +41,6 @@ const removeVote = async () => {
 const getUserVote = async () => {
   try {
     vote.value = await fetchy(`/api/posts/${props.post._id}/cvote/user`, "GET");
-    console.log(vote.value);
   } catch {
     return;
   }
@@ -72,11 +71,27 @@ onBeforeMount(async () => {
   <div class="base">
     <section v-if="loaded">
       <menu>
-        <li v-if="vote !== true || voted === false"><button class="btn-small pure-button" @click="voteCorrect()">Correct</button></li>
-        <li v-else><button class="btn-small pure-button" @click="removeVote()">Remove Correct Vote</button></li>
         <li v-if="votes !== undefined">{{ votes["Correct Votes"] }}</li>
-        <li v-if="vote !== false || voted === false"><button class="btn-small pure-button" @click="voteIncorrect()">Incorrect</button></li>
-        <li v-else><button class="btn-small pure-button" @click="removeVote()">Remove Incorrect Vote</button></li>
+        <li v-if="vote !== true || voted === false">
+          <button class="button-correct" @click="voteCorrect()">
+            <p class="fa">✓</p>
+          </button>
+        </li>
+        <li v-else>
+          <button class="button-correctClicked" @click="removeVote()">
+            <p class="fa">✓</p>
+          </button>
+        </li>
+        <li v-if="vote !== false || voted === false">
+          <button class="button-incorrect" @click="voteIncorrect()">
+            <p class="fa">✕</p>
+          </button>
+        </li>
+        <li v-else>
+          <button class="button-incorrectClicked" @click="removeVote()">
+            <p class="fa">✕</p>
+          </button>
+        </li>
         <li v-if="votes !== undefined">{{ votes["Incorrect Votes"] }}</li>
       </menu>
     </section>
@@ -117,5 +132,116 @@ menu {
 
 .base article:only-child {
   margin-left: auto;
+}
+.button-incorrect {
+  border: 2px solid #8a8a8a;
+  background-color: #fefefe;
+  text-decoration: none;
+  padding: 0.2em 0.3em;
+  position: relative;
+  vertical-align: middle;
+  text-align: center;
+  display: inline-block;
+  color: #8a8a8a;
+  transition: all ease 0.4s;
+}
+
+.button-incorrect span {
+  margin-left: 0.5rem;
+}
+.button-incorrect .fa,
+.button-incorrect span {
+  transition: all ease 0.4s;
+}
+
+.button-incorrect:focus {
+  background-color: #fefefe;
+}
+
+.button-incorrect:focus .fa,
+.button-incorrect:focus span {
+  color: #8a8a8a;
+}
+
+.button-incorrect:hover {
+  border-color: #cc4b37;
+  background-color: #fefefe;
+}
+
+.button-incorrect:hover .fa,
+.button-incorrect:hover span {
+  color: #cc4b37;
+}
+
+.button-incorrectClicked {
+  border: 2px solid #8a8a8a;
+  text-decoration: none;
+  padding: 0.2em 0.3em;
+  position: relative;
+  vertical-align: middle;
+  text-align: center;
+  display: inline-block;
+  transition: all ease 0.4s;
+  background-color: #cc4b37;
+}
+.button-incorrectClicked .fa,
+.button-incorrectClicked span {
+  color: #fefefe;
+}
+
+.button-correct {
+  border: 2px solid #8a8a8a;
+  background-color: #fefefe;
+  text-decoration: none;
+  padding: 0.2em 0.3em;
+  position: relative;
+  vertical-align: middle;
+  text-align: center;
+  display: inline-block;
+  color: #8a8a8a;
+  transition: all ease 0.4s;
+}
+
+.button-correct span {
+  margin-left: 0.5rem;
+}
+.button-correct .fa,
+.button-correct span {
+  transition: all ease 0.4s;
+}
+
+.button-correct:focus {
+  background-color: #fefefe;
+}
+
+.button-correct:focus .fa,
+.button-correct:focus span {
+  color: #8a8a8a;
+}
+
+.button-correct:hover {
+  border-color: #37cc50;
+  background-color: #fefefe;
+}
+
+.button-correct:hover .fa,
+.button-correct:hover span {
+  color: #37cc50;
+}
+
+.button-correctClicked {
+  border: 2px solid #8a8a8a;
+  text-decoration: none;
+  padding: 0.2em 0.3em;
+  position: relative;
+  vertical-align: middle;
+  text-align: center;
+  display: inline-block;
+  transition: all ease 0.4s;
+  background-color: #37cc50;
+}
+.button-correctClicked .fa,
+.button-correctClicked span {
+  color: #fefefe;
 }
 </style>

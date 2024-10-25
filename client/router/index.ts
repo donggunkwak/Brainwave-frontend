@@ -2,7 +2,9 @@ import { storeToRefs } from "pinia";
 import { createRouter, createWebHistory } from "vue-router";
 
 import { useUserStore } from "@/stores/user";
+import RequestListComponent from "../components/Verification/RequestListComponent.vue";
 import CreatePostView from "../views/CreatePostView.vue";
+import CreateRequestView from "../views/CreateRequestView.vue";
 import HomeView from "../views/HomeView.vue";
 import LoginView from "../views/LoginView.vue";
 import NotFoundView from "../views/NotFoundView.vue";
@@ -53,6 +55,16 @@ const router = createRouter({
       name: "Profile",
       component: ProfileView,
       props: true,
+    },
+    {
+      path: "/request",
+      name: "Verification Request",
+      component: CreateRequestView,
+    },
+    {
+      path: "/adminRequests",
+      name: "Administer Requests",
+      component: RequestListComponent,
     },
     {
       path: "/:catchAll(.*)",

@@ -22,4 +22,7 @@ form {
   padding: 1em;
   align-items: center;
 }
+button {
+  background-color: rgb(19, 60, 109);
+}
 </style>

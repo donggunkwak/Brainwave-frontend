@@ -10,7 +10,7 @@ const currentRouteName = computed(() => currentRoute.name);
 const userStore = useUserStore();
 const { isLoggedIn } = storeToRefs(userStore);
 const { toast } = storeToRefs(useToastStore());
-const { currentUsername } = storeToRefs(useUserStore());
+const { currentUsername, isAdmin } = storeToRefs(useUserStore());
 
 // Make sure to update the session before mounting the app in case the user is already logged in
 onBeforeMount(async () => {
@@ -23,6 +23,7 @@ onBeforeMount(async () => {
 </script>
 
 <template>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
   <header>
     <nav>
       <div class="title">
@@ -33,19 +34,32 @@ onBeforeMount(async () => {
       </div>
       <ul>
         <li>
-          <RouterLink :to="{ name: 'Home' }" :class="{ underline: currentRouteName == 'Home' }"> Home </RouterLink>
+          <RouterLink :to="{ name: 'Home' }" :class="{ underline: currentRouteName == 'Home' }">
+            <span class="material-icons"> home </span>
+          </RouterLink>
         </li>
         <li v-if="isLoggedIn">
-          <RouterLink :to="{ name: 'Create Post' }" :class="{ underline: currentRouteName == 'Create Post' }"> Create Post </RouterLink>
+          <RouterLink :to="{ name: 'Create Post' }" :class="{ underline: currentRouteName == 'Create Post' }">
+            <span class="material-icons" style="width: 25px"> add box </span>
+          </RouterLink>
         </li>
         <li v-if="isLoggedIn">
-          <RouterLink :to="{ path: `/profile/${currentUsername}` }" :class="{ underline: currentRouteName == 'Profile' }"> Profile </RouterLink>
+          <RouterLink :to="{ path: `/profile/${currentUsername}` }" :class="{ underline: currentRouteName == 'Profile' }">
+            <span class="material-icons" style="width: 25px"> person </span>
+          </RouterLink>
         </li>
         <li v-if="isLoggedIn">
-          <RouterLink :to="{ name: 'Settings' }" :class="{ underline: currentRouteName == 'Settings' }"> Settings </RouterLink>
+          <RouterLink :to="{ name: 'Settings' }" :class="{ underline: currentRouteName == 'Settings' }">
+            <span class="material-icons" style="width: 25px"> settings </span>
+          </RouterLink>
         </li>
         <li v-else>
           <RouterLink :to="{ name: 'Login' }" :class="{ underline: currentRouteName == 'Login' }"> Login </RouterLink>
+        </li>
+        <li v-if="isLoggedIn && isAdmin">
+          <RouterLink :to="{ name: 'Administer Requests' }" :class="{ underline: currentRouteName == 'Administer Requests' }">
+            <span class="material-icons" style="width: 25px"> admin_panel_settings </span>
+          </RouterLink>
         </li>
       </ul>
     </nav>
@@ -58,10 +72,13 @@ onBeforeMount(async () => {
 
 <style scoped>
 @import "./assets/toast.css";
+:global(body) {
+  background-color: rgb(207, 238, 242);
+}
 
 nav {
   padding: 1em 2em;
-  background-color: lightgray;
+  background-color: rgb(28, 101, 141);
   display: flex;
   align-items: center;
 }
@@ -83,7 +100,7 @@ img {
 
 a {
   font-size: large;
-  color: black;
+  color: rgb(0, 0, 0);
   text-decoration: none;
 }
 

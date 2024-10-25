@@ -48,6 +48,13 @@ class Routes {
     }
   }
 
+  @Router.get("/users/:username/isAdmin")
+  @Router.validate(z.object({ username: z.string().min(1) }))
+  async checkUserAdmin(username: string) {
+    const id = (await Authing.getUserByUsername(username))._id;
+    return await Authing.isUserAdmin(id);
+  }
+
   @Router.post("/users")
   async createUser(session: SessionDoc, username: string, password: string) {
     Sessioning.isLoggedOut(session);
@@ -326,12 +333,18 @@ class Routes {
   /**
    * Unverifies a User - must be an administrator
    */
-  @Router.delete("/verified/:username")
-  async unverifyUser(session: Session, username: string) {
+  @Router.delete("/verified/:id")
+  async unverifyUser(session: Session, id: string) {
     const user = Sessioning.getUser(session);
     await Authing.assertUserIsAdmin(user);
+    const _id = new ObjectId(id);
+    return await ProfessionalVerifying.unverifyUser(_id);
+  }
+
+  @Router.get("/verified/:username")
+  async getUserVerifications(username: string) {
     const id = (await Authing.getUserByUsername(username))._id;
-    return await ProfessionalVerifying.unverifyUser(id);
+    return await ProfessionalVerifying.userVerifications(id);
   }
 
   @Router.get("/friends")
